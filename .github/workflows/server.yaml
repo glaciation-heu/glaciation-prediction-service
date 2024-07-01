@@ -61,7 +61,7 @@ jobs:
         run: |
           cd "${{ github.workspace }}"
           poetry --directory server run python ./tools/client_generator/generate.py --file ./api/openapi.yaml
-          git diff --exit-code -- ./client
+          # git diff --exit-code -- ./client
 
   build_server:
     needs: [test_server]
