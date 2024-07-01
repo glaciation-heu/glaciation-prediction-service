@@ -1,14 +1,16 @@
-FROM python:3.12-slim
+FROM python:3-alpine
 
-WORKDIR /code
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
 
-COPY poetry.lock pyproject.toml ./
+COPY requirements.txt /usr/src/app/
 
-RUN pip install --no-cache-dir poetry \
-    && poetry config virtualenvs.create false \
-    && poetry install --no-root --without dev,test \
-    && rm -rf $(poetry config cache-dir)/{cache,artifacts}
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-COPY ./app /code/app
+COPY . /usr/src/app
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
+EXPOSE 8080
+
+ENTRYPOINT ["python3"]
+
+CMD ["-m", "openapi_server"]
