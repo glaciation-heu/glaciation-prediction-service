@@ -9,210 +9,81 @@ info:
     name: MIT
     url: https://github.com/HIRO-MicroDataCenters-BV/template-python/blob/main/LICENSE
   version: 0.1.0
+servers:
+- url: http://0.0.0.0:8080
 paths:
-  /metrics:
+  /prediction/{metricId}:
     get:
-      summary: Metrics
-      description: Endpoint that serves Prometheus metrics.
-      operationId: metrics_metrics_get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema: {}
-  /:
-    get:
-      summary: Example endpoint
-      description: Example endpoint that returns test data
-      operationId: example__get
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExampleResponse'
-  /item/:
-    get:
-      tags:
-      - items
-      summary: Read all items
-      description: Read all items from the storage
-      operationId: items__read_all
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                items:
-                  $ref: '#/components/schemas/Item'
-                type: array
-                title: Response Items  Read All
-    post:
-      tags:
-      - items
-      summary: Create an item
-      description: Create a new item in the storage
-      operationId: items__create
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Item'
-        required: true
-      responses:
-        '201':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Item'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-  /item/{id}/:
-    get:
-      tags:
-      - items
-      summary: Read an item
-      description: Read item from the storage
-      operationId: items__read_item
+      description: Returns a time series metric
+      operationId: get_metric_by_id
       parameters:
-      - name: id
+      - description: Id of the metric to return
+        explode: false
         in: path
+        name: metricId
         required: true
         schema:
-          type: integer
-          title: Id
+          type: string
+        style: simple
       responses:
-        '200':
-          description: Successful Response
+        "200":
           content:
-            application/json:
+            applicatin/json:
               schema:
-                $ref: '#/components/schemas/Item'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-    put:
-      tags:
-      - items
-      summary: Update an item
-      description: Update an item in the storage
-      operationId: items__update_item
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          title: Id
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Item'
-      responses:
-        '200':
-          description: Successful Response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Item'
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
-    delete:
-      tags:
-      - items
-      summary: Delete an item
-      description: Delete an item from the storage
-      operationId: items__delete_item
-      parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: integer
-          title: Id
-      responses:
-        '204':
-          description: Successful Response
-        '422':
-          description: Validation Error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/HTTPValidationError'
+                $ref: '#/components/schemas/Metric'
+          description: successful operation
+        "400":
+          description: Invalid Id supplied
+        "404":
+          description: Metric not found
+      summary: Retrieve historical and predicted time series by ID
+      x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   schemas:
-    ExampleResponse:
+    Metric:
       properties:
-        value:
+        metricId:
+          title: metricId
           type: string
-          title: Value
-      type: object
-      required:
-      - value
-      title: ExampleResponse
-      description: Example data
-      examples:
-      - value: test value
-    HTTPValidationError:
-      properties:
-        detail:
+        timeseries:
           items:
-            $ref: '#/components/schemas/ValidationError'
+            format: float
+            type: number
+          title: timeseries
           type: array
-          title: Detail
-      type: object
-      title: HTTPValidationError
-    Item:
-      properties:
-        id:
+        forecasting_values:
+          items:
+            format: float
+            type: number
+          title: forecasting_values
+          type: array
+        forecasting_upper_bounds:
+          items:
+            format: float
+            type: number
+          title: forecasting_upper_bounds
+          type: array
+        forecasting_lower_bounds:
+          items:
+            format: float
+            type: number
+          title: forecasting_lower_bounds
+          type: array
+        forecasting_model:
+          title: forecasting_model
+          type: string
+        forecasting_period:
+          format: int32
+          title: forecasting_period
           type: integer
-          title: Id
-        name:
-          type: string
-          title: Name
-      type: object
-      required:
-      - id
-      - name
-      title: Item
-      examples:
-      - id: 1
-        name: test name
-    ValidationError:
-      properties:
-        loc:
+        time:
           items:
-            anyOf:
-            - type: string
-            - type: integer
+            format: date
+            type: string
+          title: time
           type: array
-          title: Location
-        msg:
-          type: string
-          title: Message
-        type:
-          type: string
-          title: Error Type
-      type: object
-      required:
-      - loc
-      - msg
-      - type
-      title: ValidationError
+        aggregation_interval:
+          format: int64
+          title: aggregation_interval
+          type: integer
+      title: Metric
