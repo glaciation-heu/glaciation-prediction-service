@@ -26,7 +26,7 @@ class Model:
 
         :rtype: dict
         """
-        result = {}
+        result: dict[str, typing.Any] = {}
 
         for attr in self.openapi_types:
             value = getattr(self, attr)

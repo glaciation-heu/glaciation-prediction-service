@@ -94,10 +94,10 @@ import template_web_client
 from template_web_client.rest import ApiException
 from pprint import pprint
 
-# Defining the host is optional and defaults to http://localhost
+# Defining the host is optional and defaults to http://0.0.0.0:8080
 # See configuration.py for a list of all supported configuration parameters.
 configuration = template_web_client.Configuration(
-    host = "http://localhost"
+    host = "http://0.0.0.0:8080"
 )
 
 
@@ -106,39 +106,30 @@ configuration = template_web_client.Configuration(
 with template_web_client.ApiClient(configuration) as api_client:
     # Create an instance of the API class
     api_instance = template_web_client.DefaultApi(api_client)
+    metric_id = 'metric_id_example' # str | Id of the metric to return
 
     try:
-        # Example endpoint
-        api_response = api_instance.example_get()
-        print("The response of DefaultApi->example_get:\n")
+        # Retrieve historical and predicted time series by ID
+        api_response = api_instance.get_metric_by_id(metric_id)
+        print("The response of DefaultApi->get_metric_by_id:\n")
         pprint(api_response)
     except ApiException as e:
-        print("Exception when calling DefaultApi->example_get: %s\n" % e)
+        print("Exception when calling DefaultApi->get_metric_by_id: %s\n" % e)
 
 ```
 
 ## Documentation for API Endpoints
 
-All URIs are relative to *http://localhost*
+All URIs are relative to *http://0.0.0.0:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
-*DefaultApi* | [**example_get**](docs/DefaultApi.md#example_get) | **GET** / | Example endpoint
-*DefaultApi* | [**metrics_metrics_get**](docs/DefaultApi.md#metrics_metrics_get) | **GET** /metrics | Metrics
-*ItemsApi* | [**items_create**](docs/ItemsApi.md#items_create) | **POST** /item/ | Create an item
-*ItemsApi* | [**items_delete_item**](docs/ItemsApi.md#items_delete_item) | **DELETE** /item/{id}/ | Delete an item
-*ItemsApi* | [**items_read_all**](docs/ItemsApi.md#items_read_all) | **GET** /item/ | Read all items
-*ItemsApi* | [**items_read_item**](docs/ItemsApi.md#items_read_item) | **GET** /item/{id}/ | Read an item
-*ItemsApi* | [**items_update_item**](docs/ItemsApi.md#items_update_item) | **PUT** /item/{id}/ | Update an item
+*DefaultApi* | [**get_metric_by_id**](docs/DefaultApi.md#get_metric_by_id) | **GET** /prediction/{metricId} | Retrieve historical and predicted time series by ID
 
 
 ## Documentation For Models
 
- - [ExampleResponse](docs/ExampleResponse.md)
- - [HTTPValidationError](docs/HTTPValidationError.md)
- - [Item](docs/Item.md)
- - [ValidationError](docs/ValidationError.md)
- - [ValidationErrorLocInner](docs/ValidationErrorLocInner.md)
+ - [Metric](docs/Metric.md)
 
 
 <a id="documentation-for-authorization"></a>
