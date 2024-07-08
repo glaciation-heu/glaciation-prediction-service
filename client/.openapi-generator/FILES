@@ -15,5 +15,4 @@ template_web_client/models/metric.py
 template_web_client/py.typed
 template_web_client/rest.py
 test/__init__.py
-test/test_metric.py
 tox.ini

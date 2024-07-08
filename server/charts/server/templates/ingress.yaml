@@ -13,5 +13,5 @@ spec:
                 name: {{ include "app.fullname" . }}
                 port:
                   number: 8080
-            path: /ui/
+            path: /*
             pathType: Prefix
