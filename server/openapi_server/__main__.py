@@ -15,7 +15,6 @@ def main():
                 arguments={'title': 'Prediction Microservice'},
                 pythonic_params=True,
     )
-    connexion.apis.flask_api.FlaskApi.add_openapi_json(app)
 
     app.run(port=8080)
 
