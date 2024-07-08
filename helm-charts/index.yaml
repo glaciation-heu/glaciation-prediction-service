@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   prediction-service:
   - apiVersion: v2
+    appVersion: 0.1.13
+    created: "2024-07-08T13:50:48.173931638Z"
+    description: GLACIATION Prediction Service
+    digest: 51139df7444bdb0f82a5bbfa4cc915df43df55e3dd88a271adb283757c97841c
+    name: prediction-service
+    type: application
+    urls:
+    - https://glaciation-heu.github.io/glaciation-prediction-service/helm-charts/prediction-service-0.1.13.tgz
+    version: 0.1.13
+  - apiVersion: v2
     appVersion: 0.1.12
     created: "2024-07-08T13:22:27.133950683Z"
     description: GLACIATION Prediction Service
@@ -171,4 +181,4 @@ entries:
     urls:
     - https://glaciation-heu.github.io/glaciation-prediction-service/helm-charts/prediction-service-0.0.1.tgz
     version: 0.0.1
-generated: "2024-07-08T13:43:26.876292721Z"
+generated: "2024-07-08T13:50:48.173127336Z"
