@@ -30,11 +30,11 @@ resources: {}
 
 livenessProbe:
   httpGet:
-    path: /ui/
+    path: /
     port: http
 readinessProbe:
   httpGet:
-    path: /ui/
+    path: /
     port: http
 
 ingressHostName: prediction-service
