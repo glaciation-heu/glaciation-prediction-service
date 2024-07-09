@@ -6,9 +6,13 @@ from openapi_server import encoder
 
 
 def main():
+    options = {
+        'openapi_spec_path': '/ui/openapi.json'
+    }
     app = connexion.App(
         __name__, 
         specification_dir='./openapi/',
+        options=options
     )
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('openapi.yaml',
