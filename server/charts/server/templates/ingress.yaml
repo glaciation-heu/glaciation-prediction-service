@@ -3,9 +3,8 @@ kind: Ingress
 metadata:
   name: {{ include "app.fullname" . }}
   annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/configuration-snippet: |
-      rewrite ^/$ /ui permanent;
+    nginx.ingress.kubernetes.io/proxy-redirect-from: /
+    nginx.ingress.kubernetes.io/proxy-redirect-to: /ui
 spec:
   ingressClassName: nginx
   rules:
