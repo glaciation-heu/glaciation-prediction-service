@@ -7,7 +7,7 @@ from openapi_server import encoder
 
 def main():
     options = {
-        'openapi_spec_path': '/ui/openapi.json'
+        'swagger_url': '/'
     }
     app = connexion.App(
         __name__, 
