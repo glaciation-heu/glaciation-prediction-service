@@ -13,7 +13,10 @@ RUN apk update && \
     gfortran \
     libffi-dev \
     openblas-dev \
-    bash
+    bash \
+    cmake \
+    meson \
+    ninja
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
