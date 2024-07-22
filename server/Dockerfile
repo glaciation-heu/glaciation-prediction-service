@@ -6,8 +6,7 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 
 RUN apk update && \
-    apk add --virtual gcc
-RUN apt-get -y install gcc
+    apk add --no-cache gcc musl-dev
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
