@@ -18,6 +18,9 @@ RUN apk update && \
     meson \
     ninja
 
+# Upgrade pythran and gast
+RUN pip install --no-cache-dir --upgrade pythran gast
+
 RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . /usr/src/app
