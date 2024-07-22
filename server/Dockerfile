@@ -19,7 +19,7 @@ RUN apk update && \
     ninja
 
 # Upgrade pythran and gast
-RUN pip install --no-cache-dir --upgrade pythran gast
+RUN pip install --no-cache-dir --upgrade pythran gast pip
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
