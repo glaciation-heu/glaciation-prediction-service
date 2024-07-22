@@ -6,7 +6,14 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 
 RUN apk update && \
-    apk add --no-cache gcc g++ musl-dev gfortran
+    apk add --no-cache \
+    gcc \
+    g++ \
+    musl-dev \
+    gfortran \
+    libffi-dev \
+    openblas-dev \
+    bash
 
 RUN pip3 install --no-cache-dir -r requirements.txt
 
