@@ -17,10 +17,10 @@ RUN ln -sf /usr/bin/pip3 /usr/bin/pip
 # Verify Python installation
 RUN python3 --version && python --version
 
-
 # Update package lists and install packages
 RUN apt-get update && \
     apt-get install -y \
+    cron \
     gcc \
     g++ \
     gfortran \
@@ -40,11 +40,18 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 
 # Upgrade pythran and gast
-RUN pip install --no-cache-dir --upgrade pythran gast
-
+#RUN pip install --no-cache-dir --upgrade pythran gast
+# Install required packages
 RUN pip3 install --no-cache-dir -r requirements.txt --ignore-installed
 
 COPY . /usr/src/app
+
+### Set up cronjob
+COPY ./cronjob/prediction-cron /etc/cron.d/prediction-cron
+RUN chmod 0644 /etc/cron.d/prediction-cron
+# Add log
+RUN touch /var/log/cron.log
+CMD /usr/sbin/cron -f && tail -f /var/log/cron.log
 
 EXPOSE 8080
 

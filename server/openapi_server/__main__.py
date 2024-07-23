@@ -2,10 +2,12 @@
 
 import connexion
 
+#from connexion.options import SwaggerUIOptions
 from openapi_server import encoder
 
 
 def main():
+    ## Connextion 2.x
     options = {
         'swagger_url': '/'
     }
@@ -14,6 +16,18 @@ def main():
         specification_dir='./openapi/',
         options=options
     )
+    
+    ## Connextion 3.x
+    #swagger_ui_options = SwaggerUIOptions(
+    #    swagger_ui=True,
+    #    swagger_ui_path='/',
+    #)
+    #app = connexion.App(
+    #    __name__,
+    #    specification_dir='./openapi/',
+    #    swagger_ui_options=swagger_ui_options
+    #)
+
     app.app.json_encoder = encoder.JSONEncoder
     app.add_api('openapi.yaml',
                 arguments={'title': 'Prediction Microservice'},
