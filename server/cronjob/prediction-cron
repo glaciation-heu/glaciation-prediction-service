@@ -1,1 +1,1 @@
-0 2 * * * root /usr/bin/python /usr/src/app/cronjob/prediction.py >> /var/log/cron.log 2>&1
+0 17 * * * root /usr/bin/python /usr/src/app/cronjob/prediction.py >> /var/log/cron.log 2>&1
