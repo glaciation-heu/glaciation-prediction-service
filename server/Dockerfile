@@ -51,10 +51,11 @@ COPY ./cronjob/prediction-cron /etc/cron.d/prediction-cron
 RUN chmod 0644 /etc/cron.d/prediction-cron
 # Add log
 RUN touch /var/log/cron.log
-CMD /usr/sbin/cron -f && tail -f /var/log/cron.log
+#CMD /usr/sbin/cron -f && tail -f /var/log/cron.log
 
+#EXPOSE 8080
+
+#ENTRYPOINT ["python3"]
+#CMD ["-m", "openapi_server"]
+CMD cron && tail -f /var/log/cron.log & python3 -m openapi_server
 EXPOSE 8080
-
-ENTRYPOINT ["python3"]
-
-CMD ["-m", "openapi_server"]
