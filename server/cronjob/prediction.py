@@ -10,7 +10,7 @@ from datetime import datetime
 ENDPOINT = 'http://data-storage.integration/prediction' 
 PROMETHEUS = 'http://prometheus.integration'
 # Inside cluster
-ENDPOINT = 'http://data-storage-service.dkg-engine.svc.cluster.local:8080/prediction',
+ENDPOINT = 'http://data-storage-service.dkg-engine.svc.cluster.local:8080/prediction'
 PROMETHEUS = 'http://monitoring-stack-prometheus-server.monitoring.svc.cluster.local:80'
 
 TEST_DATA = {
