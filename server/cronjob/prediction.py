@@ -47,10 +47,12 @@ def main():
         default='sum(increase(kepler_container_joules_total{job=%27kepler%27}[1d]))&start=2024-08-11T00:00:00.000Z&'+f'end={cur_time}&step=86400s'
     )
     parser.add_argument('--forecasting_method', help='Choose forecasting method [ARIMA, HBNN]', default='ARIMA')
+    parser.add_argument('--prometheus', help='Prometheus service hostname', default=PROMETHEUS)
+    parser.add_argument('--dss_endpoint', help='Data storage service endpoint', default=ENDPOINT)
     args = parser.parse_args()
 
     # Get full query
-    prometheus_query = f'{PROMETHEUS}/api/v1/query_range?query={args.prometheus_query}'
+    prometheus_query = f'{args.prometheus}/api/v1/query_range?query={args.prometheus_query}'
     # Get the metrics
     res = requests.get(prometheus_query)
     print(res.content)
@@ -81,7 +83,7 @@ def main():
             "timeseries": list(vals)
         }
 
-        store(ENDPOINT, data)
+        return store(args.dss_endpoint, data)
     else:
         print(f'\nResponse: {res}')
 
