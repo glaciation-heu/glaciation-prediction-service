@@ -68,6 +68,9 @@ def main():
         
         # Get the precition
         pred = AutoARIMA(vals, evaluate=1)
+        if hasattr(pred, 'prediction') and not hasattr(pred, 'upper_bound'):
+            setattr(pred, 'upper_bound', pred.prediction * 2)
+            setattr(pred, 'lower_bound', 0.0) 
         print(pred.prediction, pred.upper_bound, pred.lower_bound)
 
         # Construct JSON format data to be posted
