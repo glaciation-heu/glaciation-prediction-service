@@ -47,6 +47,7 @@ class AutoARIMA(Forecaster):
             self.run()
         except Exception as e:
             logging.exception('Cannot run AutoARIMA, simply set the prediction to previous value')
+            self.model = 'Naive'
             self.prediction = self.history[-1]
             self.dump()
     
