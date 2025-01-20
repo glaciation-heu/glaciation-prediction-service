@@ -31,6 +31,7 @@ paths:
         required: true
         schema:
           type: string
+          example: 'M04'
         style: simple
       responses:
         "200":
@@ -43,7 +44,7 @@ paths:
           description: Invalid Id supplied
         "404":
           description: Metric not found
-      summary: Retrieve historical and predicted time series by ID
+      summary: Retrieve the latest predicted time series by ID
       x-openapi-router-controller: openapi_server.controllers.default_controller
 components:
   schemas:

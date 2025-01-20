@@ -18,4 +18,4 @@ def get_metric_by_id(metric_id):  # noqa: E501
 
     :rtype: Union[Metric, Tuple[Metric, int], Tuple[Metric, int, Dict[str, str]]
     """
-    return utils.query(metric_id)
+    return utils.query_dss(metric_id)
