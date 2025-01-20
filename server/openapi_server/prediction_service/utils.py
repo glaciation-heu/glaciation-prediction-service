@@ -14,7 +14,7 @@ ENERGY_CONSUMPTION_BUCKET = 'energy_consumption'
 ORG = 'glaciation'
 TOKEN = 'iiN2cpMECn2ohmDQD8l4GDFUAwW7-GyV8a_IVZBPhJJY4kG6aBLERYZU4WsmBglWz4G72kUHxD_l_CUvT15Idw=='
 URL = 'http://data-storage-service-db-data-storage-service-db.dkg-engine.svc.cluster.local:8086'
-DSS_ENDPOINT = 'http://data-storage-service.dkg-engine.svc.cluster.local:8086'
+DSS_ENDPOINT = 'http://data-storage-service.dkg-engine.svc.cluster.local:8080'
 # Testing
 #URL = 'http://dss-db.integration'
 #DSS_ENDPOINT = 'http://data-storage.integration'
