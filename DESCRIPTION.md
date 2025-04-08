@@ -5,9 +5,10 @@ can be configured to forecast next-day energy consumption based on the daily
 aggregated energy consumption of all pods from historical time series
 * Relevant work package and deliverable: WP6, D6.3
 
-The microservice runs a daily batch job. The first part of
+The microservice runs a daily batch job. 
+* The first part of
 the job retrieves daily aggregated energy consumption time series data from the Metric
-Store, along with relevant metadata from metadata service if needed. Secondly, a
-forecasting model is trained based on the retrieved time series data. Thirdly, the trained
-model is used to predict the energy consumption of the upcoming day(s). Finally, the
-job is completed by storing the predictions via the [data storage service](https://github.com/glaciation-heu/glaciation-data-storage-service).
+Store, along with relevant metadata from metadata service if needed.
+* Secondly, a forecasting model is trained based on the retrieved time series data.
+* Thirdly, the trained model is used to predict the energy consumption of the upcoming day(s).
+* Finally, the job is completed by storing the predictions via the [data storage service](https://github.com/glaciation-heu/glaciation-data-storage-service).
