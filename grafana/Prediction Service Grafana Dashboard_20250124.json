@@ -1,0 +1,350 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "Energy Consumption forecasting (daily)",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 0,
+  "id": 17,
+  "links": [],
+  "panels": [
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "beauhtxsgxvy8c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 3,
+            "pointSize": 10,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "kwatth"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byFrameRefID",
+              "options": "B"
+            },
+            "properties": [
+              {
+                "id": "custom.lineStyle",
+                "value": {
+                  "dash": [
+                    10,
+                    10
+                  ],
+                  "fill": "dash"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "utc"
+        ],
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "beauhtxsgxvy8c"
+          },
+          "query": "from(bucket: \"energy_consumption\")\r\n    |> range(start: -8d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"timeseries\" and\r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> map(fn: (r) =>  ({\r\n      r with _value: r._value / 3600000.0\r\n    }))",
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "beauhtxsgxvy8c"
+          },
+          "query": "from(bucket: \"energy_consumption\")\r\n    |> range(start: -7d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"forecasting\" and\r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> drop(columns:[\"input_size\", \"forecasting_time\"])\r\n    |> timeShift(duration: 1d, columns: [\"_time\"])\r\n    |> map(fn: (r) =>  ({\r\n      r with _value: r._value / 3600000.0\r\n    }))",
+          "refId": "B"
+        }
+      ],
+      "title": "Kepler (Energy Consumption)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "beauhtxsgxvy8c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 3,
+            "pointSize": 10,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 2,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "timezone": [
+          "Africa/Abidjan"
+        ],
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "beauhtxsgxvy8c"
+          },
+          "query": "import \"math\"\r\n\r\nforecast = from(bucket: \"energy_consumption\")\r\n    |> range(start: -7d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"forecasting\" and\r\n        r._field == \"forecasting_value\" and \r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> drop(columns:[\"input_size\", \"forecasting_time\"])\r\n    |> timeShift(duration: 1d, columns: [\"_time\"])\r\n    |> map(fn: (r) =>  ({\r\n      r with _value: r._value / 3600000.0\r\n    }))\r\n    \r\noriginal = from(bucket: \"energy_consumption\")\r\n    |> range(start: -7d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"timeseries\" and\r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> map(fn: (r) =>  ({\r\n      r with _value: r._value / 3600000.0\r\n    }))\r\n\r\n// Join\r\njoined = join(tables: {original: original, forecast: forecast}, on: [\"_time\"])\r\n\r\n// result\r\nresult = joined\r\n  |>map(fn: (r) => ({\r\n      _time: r._time,\r\n      _value: 100.0 * math.abs(x: r._value_original - r._value_forecast) / r._value_original\r\n  }))\r\n  \r\nresult",
+          "refId": "A"
+        }
+      ],
+      "title": "Absolute Percentage Error",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "influxdb",
+        "uid": "beauhtxsgxvy8c"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "stepBefore",
+            "lineWidth": 1,
+            "pointSize": 10,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "bool_yes_no"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "beauhtxsgxvy8c"
+          },
+          "query": "import \"math\"\r\n\r\n// Forecasting Upper\r\nforecasting_upper = from(bucket: \"energy_consumption\")\r\n    |> range(start: -7d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"forecasting\" and\r\n        r._field == \"forecasting_upper\" and \r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> drop(columns: [\"input_size\", \"forecasting_time\"])\r\n    |> timeShift(duration: 1d, columns: [\"_time\"])\r\n    |> map(fn: (r) => ({\r\n      r with _value: r._value / 3600000.0\r\n    }))\r\n    |> rename(columns: {_value: \"forecasting_upper\"})\r\n\r\n// Forecasting Lower\r\nforecasting_lower = from(bucket: \"energy_consumption\")\r\n    |> range(start: -7d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"forecasting\" and\r\n        r._field == \"forecasting_lower\" and \r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> drop(columns: [\"input_size\", \"forecasting_time\"])\r\n    |> timeShift(duration: 1d, columns: [\"_time\"])\r\n    |> map(fn: (r) => ({\r\n      r with _value: r._value / 3600000.0\r\n    }))\r\n    |> rename(columns: {_value: \"forecasting_lower\"})\r\n\r\n// Original Data\r\noriginal = from(bucket: \"energy_consumption\")\r\n    |> range(start: -7d)\r\n    |> filter(fn: (r) => \r\n        r._measurement == \"timeseries\" and\r\n        r.aggregation_interval == \"86400\" and \r\n        r.metricId == \"M04\" \r\n    )\r\n    |> map(fn: (r) => ({\r\n      r with _value: r._value / 3600000.0\r\n    }))\r\n    |> rename(columns: {_value: \"original\"})\r\n\r\n// Join original with forecasting_upper\r\nfirst_join = join(\r\n    tables: {original: original, forecast_upper: forecasting_upper},\r\n    on: [\"_time\"]\r\n)\r\n\r\n// Join the first result with forecasting_lower\r\nfinal_join = join(\r\n    tables: {first_join: first_join, forecast_lower: forecasting_lower},\r\n    on: [\"_time\"]\r\n)\r\n\r\n// Apply logic to compare and return 1 if conditions are met\r\nresult = final_join\r\n    |> map(fn: (r) => ({\r\n        r with \r\n        result: if r.original > r.forecasting_upper or r.original < r.forecasting_lower then 1 else 0\r\n    }))\r\n    |> keep(columns: [\"_time\", \"result\"])\r\n\r\nresult",
+          "refId": "A"
+        }
+      ],
+      "title": "Off confidence interval",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 39,
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now+1d"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "Prediction Service",
+  "uid": "ddvavpoxwbtvke",
+  "version": 4,
+  "weekStart": ""
+}
